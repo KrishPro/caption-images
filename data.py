@@ -61,7 +61,7 @@ class DataModule(LightningDataModule):
         self.data_path = data_path
         self.val_ratio = val_ratio
 
-    def setup(self, stage: str):
+    def setup(self, stage: str=None):
         dataset = Dataset(self.images_dir, self.data_path)
 
         val_size = int(len(dataset) * self.val_ratio)
