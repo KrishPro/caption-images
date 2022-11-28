@@ -4,11 +4,16 @@ Written by KrishPro @ KP
 filename: `train.py`
 """
 
+try:
+    from model import ViT
+    from data import DataModule
+except ImportError:
+    from caption_images.model import ViT
+    from caption_images.data import DataModule
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from model import ViT
-from data import DataModule
 from typing import Tuple
 from pytorch_lightning import LightningModule, Trainer
 
