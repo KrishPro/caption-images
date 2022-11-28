@@ -67,6 +67,7 @@ config = {
     "batch_size": 32,
     "val_ratio": 0.1,
     "log_interval": None,
+    "use_workers": True,
     "trainer": {
         "accelerator": "gpu",
         "devices": 1,
@@ -81,7 +82,7 @@ config = {
 def train(config):
     model = Model(learning_rate=config['learning_rate'], label_smoothing=config['label_smoothing'], log_interval=config['log_interval'], **config['dims'])
 
-    datamodule = DataModule(config['images_dir'], config['data_path'], batch_size=config['batch_size'], val_ratio=config['val_ratio'])
+    datamodule = DataModule(config['images_dir'], config['data_path'], batch_size=config['batch_size'], val_ratio=config['val_ratio'], use_workers=config['use_workers'])
 
     trainer = Trainer(**config['trainer'])
 

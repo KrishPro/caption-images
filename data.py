@@ -53,13 +53,14 @@ class Dataset(data.Dataset):
         return images, captions
 
 class DataModule(LightningDataModule):
-    def __init__(self, images_dir: str, data_path: str, batch_size: int, val_ratio:float=0.1) -> None:
+    def __init__(self, images_dir: str, data_path: str, batch_size: int, val_ratio:float=0.1, use_workers:float=True) -> None:
         super().__init__()
 
         self.images_dir = images_dir
         self.batch_size = batch_size
         self.data_path = data_path
         self.val_ratio = val_ratio
+        self.use_workers = use_workers
 
     def setup(self, stage: str=None):
         dataset = Dataset(self.images_dir, self.data_path)
@@ -69,7 +70,7 @@ class DataModule(LightningDataModule):
         self.train_dataset, self.val_dataset = data.random_split(dataset, [len(dataset) - val_size, val_size])
 
     def train_dataloader(self):
-        return data.DataLoader(self.train_dataset, self.batch_size, shuffle=True, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count(), persistent_workers=True)
+        return data.DataLoader(self.train_dataset, self.batch_size, shuffle=True, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count() if self.use_workers else 0, persistent_workers=self.use_workers)
     
     def val_dataloader(self):
-        return data.DataLoader(self.val_dataset, self.batch_size, shuffle=False, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count(), persistent_workers=True)
+        return data.DataLoader(self.val_dataset, self.batch_size, shuffle=False, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count() if self.use_workers else 0, persistent_workers=self.use_workers)
