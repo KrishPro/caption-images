@@ -69,7 +69,7 @@ class DataModule(LightningDataModule):
         self.train_dataset, self.val_dataset = data.random_split(dataset, [len(dataset) - val_size, val_size])
 
     def train_dataloader(self):
-        return data.DataLoader(self.train_dataset, self.batch_size, shuffle=True, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=0, persistent_workers=False)
+        return data.DataLoader(self.train_dataset, self.batch_size, shuffle=True, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count(), persistent_workers=True)
     
     def val_dataloader(self):
-        return data.DataLoader(self.val_dataset, self.batch_size, shuffle=False, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=0, persistent_workers=False)
+        return data.DataLoader(self.val_dataset, self.batch_size, shuffle=False, collate_fn=Dataset.collate_fn, pin_memory=True, num_workers=os.cpu_count(), persistent_workers=True)
