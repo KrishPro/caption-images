@@ -18,13 +18,13 @@ from typing import Tuple
 from pytorch_lightning import LightningModule, Trainer
 
 class Model(LightningModule):
-    def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, tgt_vocab_size:int, print_logs:bool=False, learning_rate:float=3e-4, label_smoothing:float=0.1, dropout_p:float=0.1, pad_idx:int=0) -> None:
+    def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, tgt_vocab_size:int, log_interval:bool=None, learning_rate:float=3e-4, label_smoothing:float=0.1, dropout_p:float=0.1, pad_idx:int=0) -> None:
         super().__init__()
 
         self.criterion = nn.CrossEntropyLoss(ignore_index=0, label_smoothing=label_smoothing)
         self.tgt_vocab_size = tgt_vocab_size
         self.learning_rate = learning_rate
-        self.print_logs = print_logs
+        self.log_interval = log_interval
 
         self.ViT = ViT(d_model=d_model, n_heads=n_heads, dim_feedforward=dim_feedforward, num_layers=num_layers, tgt_vocab_size=tgt_vocab_size, dropout_p=dropout_p, pad_idx=pad_idx)
 
@@ -33,9 +33,9 @@ class Model(LightningModule):
 
         generated_captions = self.ViT(images, captions)
 
-        loss = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions.reshape(-1))
+        loss: torch.Tesnor = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions.reshape(-1))
 
-        if self.print_logs: print(f"Epoch #{self.current_epoch} | Batch #{batch_idx}")
+        if self.log_interval and (batch_idx % self.log_interval == 0): print(f"Epoch #{self.current_epoch} | Batch #{batch_idx} | Loss: {loss.detach()}")
         return loss
     
 
@@ -66,6 +66,7 @@ config = {
     "data_path": "data/data.csv",
     "batch_size": 32,
     "val_ratio": 0.1,
+    "log_interval": None,
     "trainer": {
         "accelerator": "gpu",
         "devices": 1,
@@ -78,7 +79,7 @@ config = {
 }
 
 def train(config):
-    model = Model(learning_rate=config['learning_rate'], label_smoothing=config['label_smoothing'], **config['dims'])
+    model = Model(learning_rate=config['learning_rate'], label_smoothing=config['label_smoothing'], log_interval=config['log_interval'], **config['dims'])
 
     datamodule = DataModule(config['images_dir'], config['data_path'], batch_size=config['batch_size'], val_ratio=config['val_ratio'])
 
