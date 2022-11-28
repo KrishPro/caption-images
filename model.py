@@ -155,8 +155,8 @@ class PositionalEmbedding(nn.Module):
 
 
 
-class Transformer(nn.Module):
-    def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, src_vocab_size:int, tgt_vocab_size:int, dropout_p:float=0.1, pad_idx:int=0) -> None:
+class ViT(nn.Module):
+    def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, tgt_vocab_size:int, dropout_p:float=0.1, pad_idx:int=0) -> None:
         super().__init__()
 
         self.max_len = 5_000
@@ -244,7 +244,7 @@ def test(use_cuda=True):
 
     print(f"DEVICE: {device}")
 
-    transformer = Transformer(256, 4, 1024, 3, 30_000, 30_000).to(device)
+    transformer = ViT(256, 4, 1024, 3, 30_000, 30_000).to(device)
 
     src = torch.randn(8, 3, 256, 256, device=device)
     tgt = torch.randint(low=0, high=5, size=(8, 75), device=device)
