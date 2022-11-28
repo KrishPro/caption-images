@@ -16,7 +16,6 @@ import torch.nn as nn
 import torch.optim as optim
 from typing import Tuple
 from pytorch_lightning import LightningModule, Trainer
-from pytorch_lightning.strategies.ddp_spawn import DDPSpawnStrategy
 
 class Model(LightningModule):
     def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, tgt_vocab_size:int, print_logs:bool=False, learning_rate:float=3e-4, label_smoothing:float=0.1, dropout_p:float=0.1, pad_idx:int=0) -> None:
@@ -83,7 +82,7 @@ def train(config):
 
     datamodule = DataModule(config['images_dir'], config['data_path'], batch_size=config['batch_size'], val_ratio=config['val_ratio'])
 
-    trainer = Trainer(**config['trainer'], strategy=DDPSpawnStrategy(find_unused_parameters=False, start_method="fork"))
+    trainer = Trainer(**config['trainer'])
 
     trainer.fit(model, datamodule)
 
