@@ -32,9 +32,9 @@ class Model(LightningModule):
     def training_step(self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx):
         images, captions = batch
         
-        generated_captions = self.ViT(images, captions[:, :-1])
+        generated_captions: torch.Tensor = self.ViT(images, captions[:, :-1])
 
-        loss: torch.Tesnor = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions[:, 1:].reshape(-1))
+        loss: torch.Tensor = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions[:, 1:].reshape(-1))
 
         self.log("loss", loss.detach())
 
@@ -45,9 +45,9 @@ class Model(LightningModule):
     def validation_step(self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx):
         images, captions = batch
 
-        generated_captions = self.ViT(images, captions[:, :-1])
+        generated_captions: torch.Tensor = self.ViT(images, captions[:, :-1])
 
-        loss = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions[:, 1:].reshape(-1))
+        loss: torch.Tensor = self.criterion(generated_captions.reshape([-1, self.tgt_vocab_size]), captions[:, 1:].reshape(-1))
 
         self.log("val_loss", loss.detach(), prog_bar=True)
         return loss
