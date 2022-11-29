@@ -16,6 +16,8 @@ import torch.nn as nn
 import torch.optim as optim
 from typing import Tuple
 from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
+
 
 class Model(LightningModule):
     def __init__(self, d_model:int, n_heads:int, dim_feedforward:int, num_layers:int, tgt_vocab_size:int, log_interval:bool=None, learning_rate:float=3e-4, label_smoothing:float=0.1, dropout_p:float=0.1, pad_idx:int=0) -> None:
@@ -80,6 +82,14 @@ config = {
         "accumulate_grad_batches": 1,
         "overfit_batches": 1,
         "max_epochs": 50
+    },
+    "early_stop": {
+        "monitor": 'val_loss',
+        "min_delta": 0, 
+        "patience": 3,
+        "verbose":False,
+        "mode":'min',
+        "strict":True
     }
 
 }
@@ -89,7 +99,9 @@ def train(config):
 
     datamodule = DataModule(config['images_dir'], config['data_path'], batch_size=config['batch_size'], val_ratio=config['val_ratio'], use_workers=config['use_workers'])
 
-    trainer = Trainer(**config['trainer'])
+    callbacks = [EarlyStopping(**config['early_stop'])] if config['early_stop'] is not False else []
+
+    trainer = Trainer(**config['trainer'], callbacks=callbacks)
 
     trainer.fit(model, datamodule)
 
