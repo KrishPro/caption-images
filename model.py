@@ -186,18 +186,19 @@ class ViT(nn.Module):
                 nn.init.xavier_uniform_(p)
 
     @classmethod
-    def from_ckpt(cls, ckpt_path: str, return_hparams = False):
+    def from_ckpt(cls, ckpt_path: str):
         ckpt = torch.load(ckpt_path)
         
         model = cls(**ckpt['dims'])
 
-        # this k[7:] does `module.abc` -> abc, idk why but by default model.state_dict() adds 'module.' as a prefix to the keys
-        model.load_state_dict({k[7:]:v for k, v in ckpt['state_dict'].items()})
-
-        if return_hparams:
-            return model, ckpt['hparams']
+        model.load_state_dict(ckpt['state_dict'])
 
         return model
+
+    @classmethod
+    def add_method(cls, function):
+        setattr(cls, function.__name__, function)
+        return function
 
     def forward(self, src: torch.Tensor, tgt:torch.Tensor):
         """
