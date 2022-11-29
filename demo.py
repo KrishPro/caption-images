@@ -6,7 +6,6 @@ filename: `eval.py`
 
 
 from model import ViT
-import matplotlib.pyplot as plt
 import torchvision.transforms as T
 from tokenizers import Tokenizer
 import torch.nn.functional as F
