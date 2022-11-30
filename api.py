@@ -20,6 +20,10 @@ model = ViT.from_ckpt("Output/model.ckpt").eval()
 
 app = Flask(__name__)
 
+@app.route('/')
+def home_page():
+    return "API is running !"
+
 @app.route('/caption', methods=['POST'])
 def caption():
 
@@ -29,6 +33,10 @@ def caption():
 
     caption = tokenizer.decode(caption.tolist())
 
-    return jsonify({'caption': caption})
+    response = jsonify({'caption': caption})
+    
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
-app.run()
+    return response
+
+app.run(host='0.0.0.0')
