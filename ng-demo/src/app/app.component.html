@@ -8,7 +8,7 @@
 
 <ul class="list-group" style="margin-bottom: 85px;">
     <li class="list-group-item p-4" *ngFor="let image of images">
-        <img [src]="image.image_url" style="max-height: 128px; max-width: 128px;" class="border m-0 me-4" alt="">
+        <img [src]="image.image_url" style="max-height: 128px; max-width: 128px;" class="border m-0 mb-3" alt="">
         <button class="btn btn-outline-danger float-end" (click)="removeImg(image.image_url)"><i class="bi bi-trash3"></i></button>
         <br>
         <span style="font-size: 15px; font-weight: 200;">{{image.caption}}</span>
