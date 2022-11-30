@@ -11,6 +11,8 @@ Output/
 **/node_modules/
 **/.angular/
 
+lightning_logs/
+
 # Distribution / packaging
 .Python
 build/
