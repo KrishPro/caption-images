@@ -20,7 +20,7 @@ type Image = {
 
 export class AppComponent {
   title = 'caption-images';
-  api_addr = 'http://127.0.0.1:5000/caption'
+  api_addr = 'http://192.168.29.142:5000/caption'
   images: Image[] = [];
   
   constructor (private http: HttpClient, private sanitizer: DomSanitizer) { }
@@ -48,12 +48,13 @@ export class AppComponent {
 
     image.image_url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(await fetch(`data:image/jpeg;base64,${raw_image.base64String}`).then((res) => res.blob())));
     
-    (document.getElementById('LoaderLauncher') as HTMLButtonElement).click();
+    // (document.getElementById('LoaderLauncher') as HTMLButtonElement).click();
 
     image.caption = await this.generateCaption((raw_image.base64String as String));
 
-    (document.getElementById('LoaderLauncher') as HTMLButtonElement).click();
-    this.images.push(image)
+    // (document.getElementById('LoaderLauncher') as HTMLButtonElement).click();
+    this.images.push(image);
+    // (document.getElementById('LoaderLauncher') as HTMLButtonElement).click();
   }
   
 }

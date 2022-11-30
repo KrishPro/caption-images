@@ -2,22 +2,22 @@
     <div class="container">
       <span class="navbar-brand mb-0 h1">Caption Images</span>
 
-      <span class="navbar-text">Made by <a href="http://github.com/KrishPro" target="_blank">@KrishPro</a> and <a href="http://github.com/Baisoya123" target="_blank">@Baisoya123</a></span>
+      <span class="navbar-text" style="font-size: 10px;">Made by <a href="http://github.com/KrishPro" target="_blank">@KrishPro</a> and <a href="http://github.com/Baisoya123" target="_blank">@Baisoya123</a></span>
     </div>
   </nav>
 
-<ul class="list-group">
+<ul class="list-group" style="margin-bottom: 85px;">
     <li class="list-group-item p-4" *ngFor="let image of images">
-        <img [src]="image.image_url" style="height: 128px;" class="border m-0 me-4" alt="">
-
-        <span style="font-size: 25px; font-weight: 200;">{{image.caption}}</span>
-
+        <img [src]="image.image_url" style="max-height: 128px; max-width: 128px;" class="border m-0 me-4" alt="">
         <button class="btn btn-outline-danger float-end" (click)="removeImg(image.image_url)"><i class="bi bi-trash3"></i></button>
+        <br>
+        <span style="font-size: 15px; font-weight: 200;">{{image.caption}}</span>
+
     </li>
 </ul>
 
 
-<button type="button" (click)="takePicture()"  class="btn btn-primary fixed-bottom p-3 rounded-0" style="font-size: 30px; font-weight: 200;">Click Picture <i class="bi bi-camera2 m-2" style="font-size: 30px; font-weight: 200;"></i></button>
+<button type="button" (click)="takePicture()"  class="btn btn-primary fixed-bottom rounded-0" style="font-size: 20px; font-weight: 200;">Click Picture <i class="bi bi-camera2 m-2" style="font-size: 20px; font-weight: 200;"></i></button>
 
 
 <!-- Button trigger modal -->

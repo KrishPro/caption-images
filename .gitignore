@@ -9,6 +9,7 @@ __pycache__/
 Output/
 
 **/node_modules/
+**/.angular/
 
 # Distribution / packaging
 .Python
