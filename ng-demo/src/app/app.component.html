@@ -1,0 +1,40 @@
+<nav class="navbar bg-primary navbar-dark">
+    <div class="container">
+      <span class="navbar-brand mb-0 h1">Caption Images</span>
+
+      <span class="navbar-text">Made by <a href="http://github.com/KrishPro" target="_blank">@KrishPro</a> and <a href="http://github.com/Baisoya123" target="_blank">@Baisoya123</a></span>
+    </div>
+  </nav>
+
+<ul class="list-group">
+    <li class="list-group-item p-4" *ngFor="let image of images">
+        <img [src]="image.image_url" style="height: 128px;" class="border m-0 me-4" alt="">
+
+        <span style="font-size: 25px; font-weight: 200;">{{image.caption}}</span>
+
+        <button class="btn btn-outline-danger float-end" (click)="removeImg(image.image_url)"><i class="bi bi-trash3"></i></button>
+    </li>
+</ul>
+
+
+<button type="button" (click)="takePicture()"  class="btn btn-primary fixed-bottom p-3 rounded-0" style="font-size: 30px; font-weight: 200;">Click Picture <i class="bi bi-camera2 m-2" style="font-size: 30px; font-weight: 200;"></i></button>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="d-none" id="LoaderLauncher" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+  
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Generating caption...</h1>
+        </div>
+        <div class="modal-body">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+              </div>
+        </div>
+        <div class="modal-footer"> </div> 
+      </div>
+    </div>
+  </div>

@@ -8,6 +8,8 @@ __pycache__/
 
 Output/
 
+**/node_modules/
+
 # Distribution / packaging
 .Python
 build/
