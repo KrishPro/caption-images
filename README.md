@@ -3,7 +3,7 @@
 ## Architecture
 This project uses a transformer, to process the images and generate captions for them.
 
-![workflow](/Assets/workflow.png)
+![workflow](Assets/workflow.png)
 
 Read [ViT research paper](https://arxiv.org/abs/2010.11929) for more details about, How to use transformer for images ?
 
